@@ -2,13 +2,14 @@ import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { BreweryType } from "../../util/types";
 import BreweryCard from "../brewery-card";
+import { API_URL } from "../../util/constants";
 import "./style.scss";
 
 const BrewList = () => {
   const [breweries, setBreweries] = useState<BreweryType[]>([]);
 
   useEffect(() => {
-    fetch("https://api.openbrewerydb.org/breweries").then((res) => {
+    fetch(API_URL).then((res) => {
       res.json().then((data) => {
         setBreweries(data);
       });

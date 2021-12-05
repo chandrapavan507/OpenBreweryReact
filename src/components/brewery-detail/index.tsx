@@ -5,19 +5,18 @@ import { BreweryType } from "../../util/types";
 import BreweryCard from "../brewery-card";
 import { Map } from "../map";
 import "./style.scss";
+import { API_URL } from "../../util/constants";
 
 const Brewery = () => {
   const params = useParams();
   const [brewery, setBrewery] = useState<BreweryType>();
 
   useEffect(() => {
-    fetch(`https://api.openbrewerydb.org/breweries/${params.id}`).then(
-      (resp) => {
-        resp.json().then((data: BreweryType) => {
-          setBrewery(data);
-        });
-      }
-    );
+    fetch(API_URL + `/${params.id}`).then((resp) => {
+      resp.json().then((data: BreweryType) => {
+        setBrewery(data);
+      });
+    });
   }, [params.id]);
 
   if (!brewery) {
