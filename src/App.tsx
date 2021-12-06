@@ -1,17 +1,27 @@
-import { useState } from "react";
+import { useState, createContext } from "react";
 import { Outlet } from "react-router-dom";
 import "./App.scss";
 import Header from "./components/header";
+import { CITIES } from "./util/constants";
+
+export const CityContext = createContext({
+  city: CITIES[0],
+  setCity: (city: string) => {},
+});
 
 function App() {
-  return (
-    <div className="App">
-      <Header />
+  const [city, setCity] = useState(CITIES[0]);
 
-      <div className="">
-        <Outlet />
+  return (
+    <CityContext.Provider value={{ city, setCity }}>
+      <div className="App">
+        <Header />
+
+        <div className="">
+          <Outlet />
+        </div>
       </div>
-    </div>
+    </CityContext.Provider>
   );
 }
 

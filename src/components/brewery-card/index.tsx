@@ -8,12 +8,13 @@ import {
   Card,
 } from "@mui/material";
 import { BreweryType } from "../../util/types";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 type BreweryCardProps = { data: BreweryType };
 
 const BreweryCard: React.FC<BreweryCardProps> = ({ data }) => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const goToBrewery = () => {
     navigate(`/${data.id}`);
   };
@@ -41,9 +42,13 @@ const BreweryCard: React.FC<BreweryCardProps> = ({ data }) => {
         <Button href={data.website_url} target="_blank" size="small">
           Website
         </Button>
-        <Button onClick={goToBrewery} size="small">
-          Learn More
-        </Button>
+        {pathname === "/" ? (
+          <Button onClick={goToBrewery} size="small">
+            Learn More
+          </Button>
+        ) : (
+          ""
+        )}
       </CardActions>
     </Card>
   );

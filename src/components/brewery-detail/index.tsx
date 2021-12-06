@@ -10,7 +10,7 @@ import { API_URL } from "../../util/constants";
 const Brewery = () => {
   const params = useParams();
   const [brewery, setBrewery] = useState<BreweryType>();
-
+  const [location, setLocation] = useState<any>();
   useEffect(() => {
     fetch(API_URL + `/${params.id}`).then((resp) => {
       resp.json().then((data: BreweryType) => {
@@ -18,6 +18,15 @@ const Brewery = () => {
       });
     });
   }, [params.id]);
+
+  useEffect(() => {
+    if (brewery?.latitude && brewery?.longitude) {
+      setLocation({
+        lat: parseFloat(brewery.latitude),
+        lng: parseFloat(brewery.longitude),
+      });
+    }
+  }, [brewery]);
 
   if (!brewery) {
     return <div>Loading...</div>;
@@ -27,12 +36,11 @@ const Brewery = () => {
     <div className="App">
       <Grid container padding={2} gap={2}>
         <Grid>
-          <Map
-            location={{
-              lat: parseFloat(brewery.latitude),
-              lng: parseFloat(brewery.longitude),
-            }}
-          ></Map>
+          {location ? (
+            <Map location={location} address={brewery.name} />
+          ) : (
+            "No Location for this Brewery"
+          )}
         </Grid>
         <Grid>
           <BreweryCard data={brewery} />
